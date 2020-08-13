@@ -51,11 +51,15 @@ export namespace RestHttpErrors {
 
   export const INVALID_REQUEST_BODY_MESSAGE =
     'The request body is invalid. See error object `details` property for more info.';
-  export function invalidRequestBody(): HttpErrors.HttpError {
+
+  export function invalidRequestBody(
+    details: ValidationErrorDetails[],
+  ): HttpErrors.HttpError & {details: ValidationErrorDetails[]} {
     return Object.assign(
       new HttpErrors.UnprocessableEntity(INVALID_REQUEST_BODY_MESSAGE),
       {
         code: 'VALIDATION_FAILED',
+        details,
       },
     );
   }
